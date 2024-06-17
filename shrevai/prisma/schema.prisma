@@ -1,0 +1,144 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Company {
+  id        Int       @id @default(autoincrement())
+  name      String
+  employees Employee[]
+  chatbots  Chatbot[]
+}
+
+model Employee {
+  id         Int      @id @default(autoincrement())
+  employeeId String   @unique
+  name       String
+  email      String
+  role       String
+  companyId  Int
+  company    Company  @relation(fields: [companyId], references: [id])
+  chatbots   Chatbot[] @relation("ChatbotOwners")
+}
+
+model Chatbot {
+  id          Int            @id @default(autoincrement())
+  chatbotName String
+  companyId   Int
+  initmessage String
+  initcta     String
+  company     Company        @relation(fields: [companyId], references: [id])
+  owners      Employee[]     @relation("ChatbotOwners")
+  intents     ChatbotIntent[]
+  entities    ChatbotEntity[]
+  responses   ChatbotResponse[]
+  sessions    ChatbotSession[]
+  metrics     Metric[]
+}
+
+
+model ChatbotIntent {
+  id        Int     @id @default(autoincrement())
+  name      String
+  chatbotId Int
+  chatbot   Chatbot @relation(fields: [chatbotId], references: [id])
+}
+
+model ChatbotEntity {
+  id        Int     @id @default(autoincrement())
+  name      String
+  chatbotId Int
+  chatbot   Chatbot @relation(fields: [chatbotId], references: [id])
+}
+
+model ChatbotResponse {
+  id        Int     @id @default(autoincrement())
+  response  String
+  chatbotId Int
+  chatbot   Chatbot @relation(fields: [chatbotId], references: [id])
+}
+
+model ChatbotSession {
+  id        Int       @id @default(autoincrement())
+  chatbotId Int
+  chatbot   Chatbot   @relation(fields: [chatbotId], references: [id])
+  sessionId String    @unique
+  userId    Int
+  user      User      @relation(fields: [userId], references: [id])
+  liveAgent Boolean
+  type      String
+  intent    String
+  problem   String
+  timestamp DateTime
+}
+
+model Metric {
+  id         Int     @id @default(autoincrement())
+  chatbotId  Int
+  chatbot    Chatbot @relation(fields: [chatbotId], references: [id])
+  metricType String
+  value      Float
+  timestamp  DateTime
+}
+
+model User {
+  id       Int            @id @default(autoincrement())
+  username String         @unique
+  email    String         @unique
+  password String
+  sessions ChatbotSession[]
+  conversations Conversation[]
+}
+
+model CustomerInfo {
+  id         Int                   @id @default(autoincrement())
+  customerId String                @unique
+  name       String
+  email      String
+  phone      String
+  address    String
+  conversations CustomerConversation[]
+}
+
+model CustomerConversation {
+  id            Int              @id @default(autoincrement())
+  customerId    Int
+  customer      CustomerInfo     @relation(fields: [customerId], references: [id])
+  conversationId Int
+  conversation  Conversation     @relation(fields: [conversationId], references: [id])
+  timestamp     DateTime
+}
+
+model Conversation {
+  id             Int              @id @default(autoincrement())
+  userId         Int
+  user           User             @relation(fields: [userId], references: [id])
+  conversationId String           @unique
+  messages       ConversationMessage[]
+  timestamp      DateTime
+  customerConversation CustomerConversation[]
+}
+
+model ConversationMessage {
+  id             Int              @id @default(autoincrement())
+  message        String
+  conversationId Int
+  conversation   Conversation     @relation(fields: [conversationId], references: [id])
+  createdAt DateTime @default(now())
+}
+
+model Contact {
+  id        Int     @id @default(autoincrement())
+  name      String
+  email     String
+  phone     String
+  address   String
+  createdAt DateTime @default(now())
+}

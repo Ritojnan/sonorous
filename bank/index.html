@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bank Website</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 text-gray-800">
+    <header class="bg-white shadow sticky top-0">
+        <div class="container mx-auto flex items-center justify-between p-4">
+            <div class="flex items-center space-x-2">
+                <img src="icon.svg" alt="Other Bank" class="h-8">
+                <span class="text-lg font-semibold">Other Bank</span>
+            </div>
+            <div class="flex space-x-4">
+                <a href="#" class="text-sm text-gray-700">Login</a>
+                <a href="#" class="text-sm text-gray-700">Customer Services: 1800 1080</a>
+            </div>
+        </div>
+        
+        <nav class="bg-blue-800 text-white">
+            <div class="container mx-auto flex flex-wrap items-center justify-between p-2">
+                <a href="index.html" class="hover:underline p-2">Personal</a>
+                <a href="nri.html" class="hover:underline p-2">NRI</a>
+                <a href="#" class="hover:underline p-2">Business</a>
+                <a href="#" class="hover:underline p-2">Corporate</a>
+                <a href="#" class="hover:underline p-2">Investor Relations</a>
+                <a href="#" class="hover:underline p-2">About Us</a>
+                <a href="#" class="hover:underline p-2">Ways to Bank</a>
+                <a href="#" class="hover:underline p-2">Customer Services</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto my-8 px-4">
+        <section class="bg-white shadow-md rounded-lg p-6 mb-8">
+            <h2 class="text-2xl font-bold mb-4">FIND THE RIGHT PRODUCT FOR YOU</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="bg-gray-100 p-4 rounded-lg">
+                    <h3 class="text-xl font-semibold">LIFE STAGE SOLUTIONS</h3>
+                    <div class="mt-2">
+                        <label for="interest" class="block text-sm font-medium text-gray-700">I am interested in:</label>
+                        <select id="interest" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                            <option>Cards</option>
+                        </select>
+                    </div>
+                    <div class="mt-2">
+                        <label for="benefit" class="block text-sm font-medium text-gray-700">for</label>
+                        <select id="benefit" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                            <option>Benefits and Rewards</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="bg-gray-100 p-4 rounded-lg">
+                    <h3 class="text-xl font-semibold">Coral Credit Card</h3>
+                    <p>Joining fee 500 + GST</p>
+                    <p>Earn up to 10,000 additional reward points</p>
+                    <p>Buy 1, get 1 movie ticket free at BookMyShow</p>
+                    <p>One complimentary railway lounge visit per quarter</p>
+                    <a href="#" class="mt-2 inline-block bg-blue-800 text-white px-4 py-2 rounded">APPLY NOW</a>
+                    <a href="#" class="mt-2 inline-block text-blue-800 underline">KNOW MORE</a>
+                </div>
+                <div class="bg-gray-100 p-4 rounded-lg">
+                    <h3 class="text-xl font-semibold">DIGITAL BANKING</h3>
+                    <p>Advance. Innovative. Instant</p>
+                    <p>Mobile Banking</p>
+                    <p>Net Banking</p>
+                    <p>WhatsApp Banking</p>
+                    <a href="#" class="mt-2 inline-block bg-blue-800 text-white px-4 py-2 rounded">EXPLORE DIGITAL BANKING</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-white shadow-md rounded-lg p-6 mb-8">
+            <h2 class="text-2xl font-bold mb-4">WE TAKE YOUR BANKING SECURITY SERIOUSLY !</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-gray-100 p-4 rounded-lg">
+                    <p>Peace of mind for you as we have the most advanced technology & protection</p>
+                    <img src="img" alt="Security Image">
+                </div>
+                <div class="bg-gray-100 p-4 rounded-lg">
+                    <p>2 Factor i-safe authentication</p>
+                    <img src="img" alt="Security Image">
+                </div>
+                <div class="bg-gray-100 p-4 rounded-lg">
+                    <p>End-to-end 256 bit Encryption</p>
+                    <img src="img" alt="Security Image">
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-white shadow-md rounded-lg p-6">
+            <h2 class="text-2xl font-bold mb-4">TRENDING DEALS</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-gray-100 p-4 rounded-lg">
+                    <h3 class="text-xl font-semibold">GREAT OFFERS FOR GREAT EXPERIENCES</h3>
+                </div>
+                <div class="bg-gray-100 p-4 rounded-lg">
+                    <h3 class="text-xl font-semibold">HANDPICKED OFFERS</h3>
+                </div>
+                <div class="bg-gray-100 p-4 rounded-lg">
+                    <h3 class="text-xl font-semibold">NEARBY OFFERS</h3>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-blue-800 text-white">
+        <div class="container mx-auto py-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <div>
+                    <h4 class="font-semibold">About Us</h4>
+                    <ul class="mt-2 space-y-2">
+                        <li><a href="#" class="hover:underline">Awards & Recognition</a></li>
+                        <li><a href="#" class="hover:underline">Media Center</a></li>
+                        <li><a href="#" class="hover:underline">Investor Relations</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold">Tools & Calculators</h4>
+                    <ul class="mt-2 space-y-2">
+                        <li><a href="#" class="hover:underline">Fixed Deposit EMI Calculator</a></li>
+                        <li><a href="#" class="hover:underline">Personal Loan EMI Calculator</a></li>
+                        <li><a href="#" class="hover:underline">Home Loan EMI Calculator</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold">Customer Service</h4>
+                    <ul class="mt-2 space-y-2">
+                        <li><a href="#" class="hover:underline">Contact Us</a></li>
+                        <li><a href="#" class="hover:underline">Customer Care</a></li>
+                        <li><a href="#" class="hover:underline">Report Unauthorized Transactions</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold">Popular Products & Services</h4>
+                    <ul class="mt-2 space-y-2">
+                        <li><a href="#" class="hover:underline">Savings Account</a></li>
+                        <li><a href="#" class="hover:underline">Current Account</a></li>
+                        <li><a href="#" class="hover:underline">Fixed Deposit</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="bg-blue-900 py-4">
+            <div class="container mx-auto text-center">
+                <p class="text-sm">&copy; 2024 All Rights Reserved</p>
+                <div class="mt-2">
+                    <a href="#" class="text-sm hover:underline">Terms and conditions</a> |
+                    <a href="#" class="text-sm hover:underline">Privacy Policy</a> |
+                    <a href="#" class="text-sm hover:underline">Code of Commitment</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
