@@ -18,24 +18,10 @@ import { TbBoxMultiple1 } from "react-icons/tb";
 import { GrMultiple } from "react-icons/gr";
 
 import { Button } from "./ui/button";
-import MultipleSelector from "./ui/multiple-selector";
-import { Option } from "@/components/ui/multiple-selector";
 import ThemeSelector from "@/components/ThemeSelector";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import ChromaDBInteraction from "@/components/ChromaDBInteraction";
-const OPTIONS: Option[] = [
-  { label: "nextjs", value: "nextjs" },
-  { label: "React", value: "react" },
-  { label: "Remix", value: "remix" },
-  { label: "Vite", value: "vite" },
-  { label: "Nuxt", value: "nuxt" },
-  { label: "Vue", value: "vue" },
-  { label: "Svelte", value: "svelte" },
-  { label: "Angular", value: "angular" },
-  { label: "Ember", value: "ember", disable: true },
-  { label: "Gatsby", value: "gatsby", disable: true },
-  { label: "Astro", value: "astro" },
-];
+
 
 const icons = [
   { name: "Email", icon: Mail },
@@ -68,17 +54,7 @@ const ResponsiveGrid = () => {
           <TabsTrigger value="flow">Flow Set up</TabsTrigger>
         </TabsList>
         <TabsContent value="text" className="text-center">
-          <div className="w-full px-10">
-            <MultipleSelector
-              defaultOptions={OPTIONS}
-              placeholder="Select frameworks you like..."
-              emptyIndicator={
-                <p className="text-center text-lg leading-10 text-gray-600 dark:text-gray-400">
-                  no results found.
-                </p>
-              }
-            />
-          </div>
+         jjjj
         </TabsContent>
         <TabsContent value="logo" className="text-center">
           Change your password here.

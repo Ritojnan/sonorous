@@ -1,5 +1,5 @@
 "use client";
-import * as React from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 
 import { cn } from "@/lib/utils";
@@ -14,10 +14,10 @@ import {
 } from "@/components/ui/navigation-menu";
 import { ArrowRight, CircleUser, Menu } from "lucide-react";
 
-import { Moon, Sun } from "lucide-react"
-import { useTheme } from "next-themes"
+import { Moon, Sun } from "lucide-react";
+import { useTheme } from "next-themes";
 
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -25,15 +25,17 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
 import { GoDependabot } from "react-icons/go";
 import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
+import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
+import React from "react";
 
-export function ModeToggle() {
-  const { setTheme } = useTheme()
-
+export function ModeToggle(props:any) {
+  const { setTheme } = useTheme();
   return (
-    <DropdownMenu>
+    <DropdownMenu {...props}>
       <DropdownMenuTrigger asChild>
         <Button variant="outline" size="icon">
           <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
@@ -53,7 +55,7 @@ export function ModeToggle() {
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
-  )
+  );
 }
 
 const components: { title: string; href: string; description: string }[] = [
@@ -95,6 +97,25 @@ const components: { title: string; href: string; description: string }[] = [
 ];
 
 export default function Navbar() {
+  const [isValid, setIsValid] = useState<boolean | null>(null);
+
+  const router = useRouter();
+
+  useEffect(() => {
+    const checkToken = async () => {
+      try {
+        if (Cookies.get("token")) {
+          setIsValid(true);
+        }
+      } catch (error) {
+        console.error("Token validation error:", error);
+        setIsValid(false);
+      }
+    };
+
+    checkToken();
+  }, [router]);
+
   return (
     // <div className="p-2 m-2 flex justify-between">
     //   <NavigationMenu>
@@ -161,148 +182,92 @@ export default function Navbar() {
     //           </ul>
     //         </NavigationMenuContent>
     //       </NavigationMenuItem>
-    //       <NavigationMenuItem>
-    //         <Link href="/affiliates" legacyBehavior passHref>
-    //           <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-    //             Affiliates
-    //           </NavigationMenuLink>
-    //         </Link>
-    //       </NavigationMenuItem>
-    //       <NavigationMenuItem>
-    //         <Link href="/pricing" legacyBehavior passHref>
-    //           <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-    //             Pricing
-    //           </NavigationMenuLink>
-    //         </Link>
-    //       </NavigationMenuItem>
     //     </NavigationMenuList>
-    //   </NavigationMenu>
-    //   <NavigationMenu>
-    //     <NavigationMenuList>
-    //       <NavigationMenuItem>
-    //         <Link href="/dashboard" legacyBehavior passHref>
-    //           <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-    //             <Button>
-    //               Dashboard <ArrowRight className="w-4 h-4" />
-    //             </Button>
-    //           </NavigationMenuLink>
-    //         </Link>
-    //       </NavigationMenuItem>
-    //     </NavigationMenuList>
-    //   <ModeToggle/>
     //   </NavigationMenu>
     // </div>
     <header className="sticky top-0 flex h-16 items-center gap-4 border-b bg-background px-4 md:px-6 bg-white dark:bg-black z-40">
-        <nav className="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
-          <Link
-            href="#"
-            className="flex items-center gap-2 text-lg font-semibold md:text-base  bg-red-500 text-white p-2 rounded-full"
-          >
-            <GoDependabot className="h-6 w-6" />
-            {/* <span className="sr-only">ShrevAI</span> */}
-            <span className="">ShrevAI</span>
-          </Link>
-          <Link
-            href="#"
-            className="text-muted-foreground transition-colors hover:text-foreground"
-          >
-            Dashboard
-          </Link>
-          <Link
-            href="#"
-            className="text-muted-foreground transition-colors hover:text-foreground"
-          >
-            Orders
-          </Link>
-          <Link
-            href="#"
-            className="text-muted-foreground transition-colors hover:text-foreground"
-          >
-            Products
-          </Link>
-          <Link
-            href="#"
-            className="text-muted-foreground transition-colors hover:text-foreground"
-          >
-            Customers
-          </Link>
-          <Link
-            href="#"
-            className="text-foreground transition-colors hover:text-foreground"
-          >
-            Settings
-          </Link>
-        </nav>
-        <Sheet>
-          <SheetTrigger asChild>
-            <Button
-              variant="outline"
-              size="icon"
-              className="shrink-0 md:hidden"
+      <nav className="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
+        <Link
+          href="#"
+          className="flex items-center gap-2 text-lg font-semibold md:text-base  bg-red-500 text-white p-2 rounded-full"
+        >
+          <GoDependabot className="h-6 w-6" />
+          {/* <span className="sr-only">ShrevAI</span> */}
+          <span className="">ShrevAI</span>
+        </Link>
+        <Link
+          href="#"
+          className="text-muted-foreground transition-colors hover:text-foreground"
+        >
+          Products
+        </Link>
+        <Link
+          href="#"
+          className="text-muted-foreground transition-colors hover:text-foreground"
+        >
+          Customers
+        </Link>
+        <Link
+          href="#"
+          className="text-foreground transition-colors hover:text-foreground"
+        >
+          Pricing
+        </Link>
+      </nav>
+      <Sheet>
+        <SheetTrigger asChild>
+          <Button variant="outline" size="icon" className="shrink-0 md:hidden">
+            <Menu className="h-5 w-5" />
+            <span className="sr-only">Toggle navigation menu</span>
+          </Button>
+        </SheetTrigger>
+        <SheetContent side="left">
+          <nav className="grid gap-6 text-lg font-medium">
+            <Link
+              href="/"
+              className="flex items-center gap-2 text-lg font-semibold"
             >
-              <Menu className="h-5 w-5" />
-              <span className="sr-only">Toggle navigation menu</span>
+              <GoDependabot className="h-6 w-6" />
+              <span className="sr-only">ShrevAI</span>
+            </Link>
+            <Link
+              href="#"
+              className="text-muted-foreground hover:text-foreground"
+            >
+              Products
+            </Link>
+            <Link
+              href="#"
+              className="text-muted-foreground hover:text-foreground"
+            >
+              Customers
+            </Link>
+            <Link href="#" className="hover:text-foreground">
+              Pricing
+            </Link>
+          </nav>
+        </SheetContent>
+      </Sheet>
+      <div className="flex items-center gap-4 ml-auto md:gap-2 lg:gap-4">
+        <ModeToggle />
+        {isValid ? (
+          <Link href="/dashboard">
+            <Button>
+              Dashboard <ArrowRight className="w-4 h-4" />
             </Button>
-          </SheetTrigger>
-          <SheetContent side="left">
-            <nav className="grid gap-6 text-lg font-medium">
-              <Link
-                href="#"
-                className="flex items-center gap-2 text-lg font-semibold"
-              >
-                <GoDependabot className="h-6 w-6" />
-                <span className="sr-only">ShrevAI</span>
-              </Link>
-              <Link
-                href="#"
-                className="text-muted-foreground hover:text-foreground"
-              >
-                Dashboard
-              </Link>
-              <Link
-                href="#"
-                className="text-muted-foreground hover:text-foreground"
-              >
-                Orders
-              </Link>
-              <Link
-                href="#"
-                className="text-muted-foreground hover:text-foreground"
-              >
-                Products
-              </Link>
-              <Link
-                href="#"
-                className="text-muted-foreground hover:text-foreground"
-              >
-                Customers
-              </Link>
-              <Link href="#" className="hover:text-foreground">
-                Settings
-              </Link>
-            </nav>
-          </SheetContent>
-        </Sheet>
-        <div className="flex items-center gap-4 ml-auto md:gap-2 lg:gap-4">
-         
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="secondary" size="icon" className="rounded-full">
-                <CircleUser className="h-5 w-5" />
-                <span className="sr-only">Toggle user menu</span>
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuLabel>My Account</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>Settings</DropdownMenuItem>
-              <DropdownMenuItem>Support</DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>Logout</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
-      </header>
+          </Link>
+        ) : (
+          <>
+            <Link href="/login">
+              <Button variant={"link"}>Login</Button>
+            </Link>{" "}
+            <Link href="/signup">
+              <Button>Sign Up</Button>
+            </Link>
+          </>
+        )}
+      </div>
+    </header>
   );
 }
 

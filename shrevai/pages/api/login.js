@@ -11,7 +11,7 @@ export default async function handler(req, res) {
   const { email, password } = req.body;
 
   try {
-    const user = await prisma.user.findUnique({
+    const user = await prisma.employee.findUnique({
       where: { email },
     });
 
@@ -26,7 +26,7 @@ export default async function handler(req, res) {
     }
 
     const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, {
-      expiresIn: '1h',
+      expiresIn: '15d',
     });
 
     res.status(200).json({ token, user });

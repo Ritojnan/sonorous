@@ -97,11 +97,11 @@ Better Bots,Better Leads            </p>
             </div>
           </div>
         </div>
-        <div className="mt-16 border-t border-gray-900/10 pt-8 sm:mt-20 lg:mt-24 dark:border-gray-100/10">
+        {/* <div className="mt-16 border-t border-gray-900/10 pt-8 sm:mt-20 lg:mt-24 dark:border-gray-100/10">
           <p className="text-xs leading-5 text-gray-700 dark:text-gray-300">
             &copy; 2024 SyntaxUI. All rights reserved.
           </p>
-        </div>
+        </div> */}
       </div>
     </footer>
   )

@@ -1,19 +1,47 @@
 "use client";
-import { signIn } from "next-auth/react";
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import Cookies from "js-cookie";
+import { Loader } from "lucide-react";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const router = useRouter();
 
-  const handleSubmit = async (e:any) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
-    await signIn("credentials", { email, password });
+    setLoading(true);
+    setError("");
+    try {
+      const res = await fetch("/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || "Login failed");
+      }
+
+      Cookies.set("token", data.token, { expires: 15 });
+      router.push("/dashboard");
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -53,15 +81,13 @@ export default function Login() {
                 required
               />
             </div>
-            <Button type="submit" className="w-full">
-              Login
+            <Button type="submit" className="w-full" disabled={loading}>
+              {loading ? <Loader className=" h-4 w-4 animate-spin" />  : "Login"}
             </Button>
-            <Button variant="outline" className="w-full">
-              Login with Google
-            </Button>
+            {error && <p className="text-red-500 text-sm">{error}</p>}
           </form>
           <div className="mt-4 text-center text-sm">
-            Don &apos;t have an account?
+            Don't have an account?
             <Link href="/signup" className="underline">
               Sign Up
             </Link>
@@ -73,7 +99,7 @@ export default function Login() {
           src="/login.jpg"
           alt="Image"
           width="500"
-          height={"500"}
+          height="500"
           className="h-screen w-full object-cover dark:brightness-[0.2] dark:grayscale"
         />
       </div>
