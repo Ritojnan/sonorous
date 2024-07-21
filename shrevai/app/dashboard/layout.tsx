@@ -102,7 +102,7 @@ export default function RootLayout({
     );
   }
 
-  if (user?.companyId === null) {
+  if (user?.companyId === null && isValid) {
     return (
       <div className="h-screen w-full flex items-center justify-center">
         <Createcompany />

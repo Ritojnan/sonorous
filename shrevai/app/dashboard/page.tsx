@@ -103,34 +103,41 @@ export default function Dashboard() {
             <CardHeader className="pb-2">
               <CardDescription>This Week</CardDescription>
               <CardTitle>
-                <span className="text-4xl">1,329</span>{" "}
+                {/* <span className="text-4xl">1,329</span>{" "} */}
+                <span className="text-4xl">0</span>{" "}
+
                 <span className="text-sm">sessions</span>{" "}
               </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="text-xs text-muted-foreground">
-                +25% from last week
+                {/* +25% from last week */}
+                0% from last week
+
               </div>
             </CardContent>
             <CardFooter>
-              <Progress value={25} aria-label="25% increase" />
+              <Progress value={0} aria-label="25% increase" />
             </CardFooter>
           </Card>
           <Card x-chunk="dashboard-05-chunk-2">
             <CardHeader className="pb-2">
               <CardDescription>This Month</CardDescription>
               <CardTitle>
-                <span className="text-4xl">1,329</span>{" "}
+                {/* <span className="text-4xl">1,329</span>{" "} */}
+                <span className="text-4xl">0</span>{" "}
                 <span className="text-sm">users</span>{" "}
               </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="text-xs text-muted-foreground">
-                +10% from last month
+                0% from last month
+                {/* +10% from last month */}
               </div>
             </CardContent>
             <CardFooter>
-              <Progress value={(1329 * 100) / 5000} aria-label="12% increase" />
+              {/* <Progress value={(1329 * 100) / 5000} aria-label="12% increase" /> */}
+              <Progress value={0} aria-label="12% increase" />
             </CardFooter>
           </Card>
         </div>
@@ -183,19 +190,42 @@ export default function Dashboard() {
                     <TableRow>
                       <TableHead>Customer</TableHead>
                       <TableHead className="hidden sm:table-cell">
-                        Type
+                        Chatbot
                       </TableHead>
                       <TableHead className="hidden sm:table-cell">
-                        Status
+                        ConversationID
                       </TableHead>
                       <TableHead className="hidden md:table-cell">
                         Date
                       </TableHead>
-                      <TableHead className="text-right">Amount</TableHead>
+                      <TableHead className="text-right">Issue</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     <TableRow>
+                      <TableCell>
+                        <div className="font-medium">None</div>
+                        <div className="hidden text-sm text-muted-foreground md:inline">
+                          {/* jese@leos */}
+                        </div>
+                      </TableCell>
+                      <TableCell className="hidden sm:table-cell">
+                        -
+                      </TableCell>
+                      <TableCell className="hidden sm:table-cell">
+                        {/* <Badge className="text-xs" variant="outline">
+                          -
+                        </Badge> */}
+                      </TableCell>
+                      <TableCell className="hidden md:table-cell">
+                        {/* 2023-06-24 */}
+                      </TableCell>
+                      <TableCell className="text-right">
+                        {/* $150.00 */}
+                        </TableCell>
+                    </TableRow>
+                    
+                    {/* <TableRow>
                       <TableCell>
                         <div className="font-medium">Olivia Smith</div>
                         <div className="hidden text-sm text-muted-foreground md:inline">
@@ -254,7 +284,7 @@ export default function Dashboard() {
                         2023-06-26
                       </TableCell>
                       <TableCell className="text-right">$450.00</TableCell>
-                    </TableRow>
+                    </TableRow> */}
                   </TableBody>
                 </Table>
               </CardContent>
@@ -286,10 +316,10 @@ export default function Dashboard() {
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
-                  <DropdownMenuItem>Edit</DropdownMenuItem>
-                  <DropdownMenuItem>Export</DropdownMenuItem>
+                  <DropdownMenuItem>Add</DropdownMenuItem>
+                  <DropdownMenuItem>Delete</DropdownMenuItem>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem>Trash</DropdownMenuItem>
+                  <DropdownMenuItem>View All</DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
@@ -303,7 +333,9 @@ export default function Dashboard() {
                 </span>
               </div>
               <ul className="grid gap-3">
-                <li className="flex items-center justify-between">
+              <li><span className="text-muted-foreground">No Data</span></li>
+
+                {/* <li className="flex items-center justify-between">
                   <span className="text-muted-foreground">
                     Glimmer Lamps x <span>2</span>
                   </span>
@@ -314,7 +346,7 @@ export default function Dashboard() {
                     Aqua Filters x <span>1</span>
                   </span>
                   <span>$49.00</span>
-                </li>
+                </li> */}
               </ul>
               <Separator className="my-2" />
               <div className="font-semibold flex flex-row items-center space-x-2">
@@ -324,7 +356,8 @@ export default function Dashboard() {
                 </span>
               </div>
               <ul className="grid gap-3">
-                <li className="flex items-center justify-between">
+                <li><span className="text-muted-foreground">No Data</span></li>
+                {/* <li className="flex items-center justify-between">
                   <span className="text-muted-foreground">
                     Glimmer Lamps x <span>2</span>
                   </span>
@@ -335,7 +368,7 @@ export default function Dashboard() {
                     Aqua Filters x <span>1</span>
                   </span>
                   <span>$49.00</span>
-                </li>
+                </li> */}
               </ul>
             </div>
             <Separator className="my-4" />
@@ -346,6 +379,10 @@ export default function Dashboard() {
               </div>
               <dl className="grid gap-3">
                 <div className="flex items-center justify-between">
+                  <dt className="text-muted-foreground">None</dt>
+                  <dd>-</dd>
+                </div>
+                {/* <div className="flex items-center justify-between">
                   <dt className="text-muted-foreground">Customer</dt>
                   <dd>Liam Johnson</dd>
                 </div>
@@ -360,7 +397,7 @@ export default function Dashboard() {
                   <dd>
                     <a href="tel:">+1 234 567 890</a>
                   </dd>
-                </div>
+                </div> */}
               </dl>
             </div>
           </CardContent>

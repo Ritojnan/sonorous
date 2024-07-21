@@ -26,7 +26,7 @@ export default function LoginForm() {
     setLoading(true);
 
     try {
-      const response = await fetch('http://localhost:3000/api/createcompany', {
+      const response = await fetch('/api/createcompany', {
         method: 'POST',
         headers: {
           Authorization: "Bearer " + Cookies.get("token"),

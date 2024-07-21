@@ -87,7 +87,7 @@ export default function Login() {
             {error && <p className="text-red-500 text-sm">{error}</p>}
           </form>
           <div className="mt-4 text-center text-sm">
-            Don't have an account?
+            Don&apos;t have an account?
             <Link href="/signup" className="underline">
               Sign Up
             </Link>
@@ -100,7 +100,7 @@ export default function Login() {
           alt="Image"
           width="500"
           height="500"
-          className="h-screen w-full object-cover dark:brightness-[0.2] dark:grayscale"
+          className="h-screen w-full object-cover dark:brightness-[0.5] "
         />
       </div>
     </div>

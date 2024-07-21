@@ -4,7 +4,7 @@
  * Documentation: https://v0.dev/docs#integrating-generated-code-into-your-nextjs-app
  */
 import { Button } from "@/components/ui/button"
-import { BoldIcon, ItalicIcon, UploadIcon } from "lucide-react"
+import { BoldIcon, ImageIcon, ItalicIcon, LinkIcon, UnderlineIcon, UploadIcon } from "lucide-react"
 
 export default function Component() {
   return (

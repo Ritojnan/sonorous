@@ -7,7 +7,7 @@ export default async function handler(req, res) {
     return res.status(405).json({ message: 'Method Not Allowed' });
   }
 
-  const { chatbotId, userId, type } = req.body;
+  const { chatbotId, userId } = req.body;
 
   try {
     // Check if the chatbot exists
@@ -34,8 +34,7 @@ export default async function handler(req, res) {
         chatbotId: parseInt(chatbotId, 10),
         sessionId: uuidv4(), // Generate a new UUID for sessionId
         userId: user.id, // Assuming userId is a string based on the schema
-        liveAgent: false,
-        type: type || 'customer support',
+        liveAgent: false
       },
     });
 

@@ -64,8 +64,7 @@ const Pricing = () => {
           Pricing
         </div>
         <p className="mt-2 text-3xl font-bold tracking-tight text-gray-800 sm:text-4xl dark:text-gray-200">
-          Fair pricing, unfair advantage.
-        </p>
+        Competitive pricing,<span className="text-red-500">distinct</span > advantage</p>
         <p className="text-md max-w-xl text-gray-700 md:text-center dark:text-gray-300">
           Get started with shrevai today and take your business to the next level.
         </p>

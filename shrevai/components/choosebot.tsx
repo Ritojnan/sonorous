@@ -17,24 +17,31 @@ import {
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import { Loader } from "lucide-react";
-import { toast } from "sonner";
+
+import { ToastAction } from "@/components/ui/toast"
+import { useToast } from "@/components/ui/use-toast"
+
 import MultipleSelector from "./ui/multiple-selector";
 import { Option } from "@/components/ui/multiple-selector";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue, SelectSeparator } from "./ui/select";
+import { motion } from "framer-motion"
+import Link from "next/link"
+import { ArrowLeft } from "lucide-react"
 
 const OPTIONS: Option[] = [
-  { label: "nextjs", value: "nextjs" },
-  { label: "React", value: "react" },
-  { label: "Remix", value: "remix" },
-  { label: "Vite", value: "vite" },
-  { label: "Nuxt", value: "nuxt" },
-  { label: "Vue", value: "vue" },
-  { label: "Svelte", value: "svelte" },
-  { label: "Angular", value: "angular" },
-  { label: "Ember", value: "ember", disable: true },
-  { label: "Gatsby", value: "gatsby", disable: true },
-  { label: "Astro", value: "astro" },
+  { label: "High Priority", value: "high_priority" },
+  { label: "Low Priority", value: "low_priority" },
+  { label: "News", value: "news" },
+  { label: "Offers", value: "offers" },
+  { label: "Promotions", value: "promotions" },
+  { label: "Updates", value: "updates" },
+  { label: "Feedback", value: "feedback" },
+  { label: "Inquiry", value: "inquiry" },
+  { label: "Support", value: "support", disable: true },
+  { label: "Complaint", value: "complaint", disable: true },
+  { label: "General", value: "general" },
 ];
+
 
 const formSchema = z.object({
   chatbotName: z.string().min(1, { message: "Chatbot Name is required." }),
@@ -57,8 +64,9 @@ const formSchema = z.object({
 
 export function CreateBotForm() {
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<any>(null);
   const router = useRouter();
+  const { toast } = useToast()
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -66,20 +74,20 @@ export function CreateBotForm() {
       chatbotName: "",
       type: "",
       initmessage: "",
-      initcta: "{}",
+      initcta: "[]",
       tags: "",
       data: null,
     },
   });
 
-  const handleSubmit = async (values) => {
+  const handleSubmit = async (values: { initcta: string; }) => {
     console.log("Form values before sending:", values);
     values.initcta = JSON.parse(values.initcta);
     setLoading(true);
     setError(null);
 
     try {
-      const response = await fetch("http://localhost:3000/api/createbot", {
+      const response = await fetch("/api/createbot", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -96,7 +104,14 @@ export function CreateBotForm() {
       }
 
       form.reset();
-      toast("Chatbot has been created. Redirecting ...");
+      toast({
+        title: "Success",
+        description: "Chatbot created successfully.Redirecting ...",
+        // action: (
+        //   <ToastAction altText="Goto schedule to undo">Undo</ToastAction>
+        // ),
+      })
+      
       router.push("chatbots/" + data.id);
     } catch (error) {
       setError(error.message);
@@ -137,9 +152,9 @@ export function CreateBotForm() {
               <SelectValue placeholder="Select type" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="FAQ">FAQ</SelectItem>
               <SelectItem value="All">All</SelectItem>
               <SelectItem value="Customer Support">Customer Support</SelectItem>
+              <SelectItem value="FAQ">FAQ</SelectItem>
               <SelectItem value="Data Collection">Data Collection</SelectItem>
             </SelectContent>
           </Select>
@@ -163,7 +178,7 @@ export function CreateBotForm() {
           )}
         />
 
-        <FormField
+        {/* <FormField
           control={form.control}
           name="initcta"
           render={({ field }) => (
@@ -175,9 +190,9 @@ export function CreateBotForm() {
               <FormMessage />
             </FormItem>
           )}
-        />
+        /> */}
 
-        <FormField
+        {/* <FormField
           control={form.control}
           name="tags"
           render={({ field }) => (
@@ -190,7 +205,7 @@ export function CreateBotForm() {
               <FormMessage />
             </FormItem>
           )}
-        />
+        /> */}
 
         {/* <FormField
           control={form.control}
@@ -218,7 +233,7 @@ export function CreateBotForm() {
           )}
         /> */}
 
-        <FormField
+        {/* <FormField
           control={form.control}
           name="data"
           render={({ field }) => (
@@ -230,7 +245,7 @@ export function CreateBotForm() {
               <FormMessage />
             </FormItem>
           )}
-        />
+        /> */}
 
         {error && <div className="text-red-600">{error}</div>}
 

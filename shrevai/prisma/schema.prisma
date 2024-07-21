@@ -3,7 +3,8 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  // provider = "sqlite"
+  provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
@@ -37,7 +38,7 @@ model Chatbot {
   initcta     String           @default("{}")
   type        String           @default("")
   tags        String?
-  data        Bytes?
+  imgData        Bytes?
   company     Company          @relation(fields: [companyId], references: [id])
   owners      Employee[]       @relation("ChatbotOwners")
   sessions    ChatbotSession[]
@@ -48,25 +49,27 @@ model Chatbot {
 
 model ChatbotSession {
   id        Int       @id @default(autoincrement())
+  name      String    @default("")
   chatbotId Int
   chatbot   Chatbot   @relation(fields: [chatbotId], references: [id])
   sessionId String    @unique
   userId    String
   user      User      @relation(fields: [userId], references: [id])
   liveAgent Boolean
-  type      String
   messages  Message[]
   createdAt DateTime  @default(now())
 }
 
 model Message {
   id         Int            @id @default(autoincrement())
-  content    String
+  content    String         @db.Text
   senderType String // 'user', 'chatbot', 'employee'
-  senderId   Int // ID of the user, chatbot, or employee
-  session    ChatbotSession @relation(fields: [id], references: [id])
+  senderId   String // ID of the user, chatbot, or employee
+  sessionId  Int            // Foreign key to ChatbotSession
+  session    ChatbotSession @relation(fields: [sessionId], references: [id])
   createdAt  DateTime       @default(now())
 }
+
 
 model User {
   id        String           @id

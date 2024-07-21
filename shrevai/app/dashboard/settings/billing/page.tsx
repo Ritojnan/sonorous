@@ -29,7 +29,7 @@ export default function page() {
 <div className="grid gap-6">
             <Card x-chunk="dashboard-04-chunk-1">
               <CardHeader>
-                <CardTitle>Billing</CardTitle>
+                <CardTitle>Billingxxx</CardTitle>
                 <CardDescription>
                     <ModeToggle/>
                   Used to identify your store in the marketplace.

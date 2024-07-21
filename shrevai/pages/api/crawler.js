@@ -1,6 +1,6 @@
 import xml2js from 'xml2js';
 import { ChromaClient } from 'chromadb';
-
+import authMiddleware from '@/lib/authMiddleware';
 const parser = new xml2js.Parser();
 const client = new ChromaClient({
   path: 'http://127.0.0.1:8000',
@@ -51,7 +51,7 @@ async function fetchAndParseSitemap(url, collection, domainname, index = 0) {
   }
 }
 
-export default async function handler(req, res) {
+async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ message: 'Method Not Allowed' });
   }
@@ -110,3 +110,5 @@ export default async function handler(req, res) {
     return res.status(500).json({ message: `Error in crawler: ${error.message}` });
   }
 }
+
+export default authMiddleware(handler);

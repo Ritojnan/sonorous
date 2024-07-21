@@ -43,7 +43,7 @@ const ChatModal = () => {
     setLoading(true);
 
     try {
-      const response = await fetch('http://localhost:3000/api/chat', {
+      const response = await fetch('/api/chat', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -153,7 +153,7 @@ const ChatModal = () => {
       <Dialog.Trigger asChild>
         <button
           className={twMerge(
-            "fixed bottom-4 right-4 text-white p-3 rounded-full shadow-lg hover:bg-blue-700"
+            "fixed bottom-4 right-4 text-white p-3 rounded-full shadow-lg hover:bg-blue-700 bg-zinc-900"
           )}
           style={{ backgroundColor: config.primaryColor }}
         >

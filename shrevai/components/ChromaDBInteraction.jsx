@@ -1,38 +1,68 @@
 "use client";
 
-import React, { useState } from "react";
-import { Input } from "@/components/ui/input";
+import React, { useState, useEffect } from "react";
+import { useEditor, EditorContent } from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
+import Placeholder from "@tiptap/extension-placeholder";
+import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
+import { Card } from "./ui/card";
+import { Input } from "./ui/input";
+import { Loader, Upload } from "lucide-react";
+import { toast } from "./ui/use-toast";
 
 export default function ChromaDBInteraction() {
-  const [collectionName, setCollectionName] = useState("");
   const [documents, setDocuments] = useState("");
-  const [ids, setIds] = useState("");
   const [queryTexts, setQueryTexts] = useState("");
   const [nResults, setNResults] = useState("5");
   const [results, setResults] = useState(null);
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
+  const editor = useEditor({
+    extensions: [
+      StarterKit,
+      Placeholder.configure({
+        placeholder: "Enter your documents here...",
+      }),
+    ],
+    content: '',
+    onUpdate: ({ editor }) => {
+      setDocuments(editor.getHTML());
+    },
+  });
+
   const handleUpsert = async () => {
+    setLoading(true);
+    setError("");
     try {
-      const response = await fetch("/api/chromadb", {
+      const response = await fetch("/api/train", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "Authorization": `Bearer ${Cookies.get("token")}`,
         },
         body: JSON.stringify({
-          collectionName,
           documents: documents.split("\n"),
-          ids: ids.split("\n"),
         }),
       });
 
       if (response.ok) {
         const data = await response.json();
-        alert(data.message);
+
+
+        toast({
+          title: "Success",
+          description: " Documents added successfully",
+          
+        })
+    
+
+
       } else {
         const errorData = await response.json();
         setError(errorData.error || "Failed to add documents");
@@ -40,21 +70,25 @@ export default function ChromaDBInteraction() {
     } catch (error) {
       setError("Failed to add documents");
     }
+    setLoading(false);
   };
 
   const handleQuery = async () => {
+    setLoading(true);
+    setError("");
     try {
-      const response = await fetch("/api/chromadb", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          collectionName,
-          queryTexts: queryTexts.split("\n"),
-          nResults,
-        }),
-      });
+      const response = await fetch(
+        `/api/train?&queryTexts=${encodeURIComponent(
+          queryTexts.split("\n").join(",")
+        )}&nResults=${nResults}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${Cookies.get("token")}`,
+          },
+        }
+      );
 
       if (response.ok) {
         const data = await response.json();
@@ -66,37 +100,22 @@ export default function ChromaDBInteraction() {
     } catch (error) {
       setError("Failed to fetch results");
     }
+    setLoading(false);
   };
 
   return (
-    <div className="space-y-4">
+    <Card className="space-y-4 my-2 p-4">
       <div>
-        <Label htmlFor="collectionName">Collection Name</Label>
-        <Input
-          id="collectionName"
-          value={collectionName}
-          onChange={(e) => setCollectionName(e.target.value)}
-        />
+        <Label htmlFor="documents">Add Information [Markdown]</Label>
+        <div className="border p-2 rounded-md">
+          <EditorContent editor={editor}   />
+        </div>
       </div>
+      <Button onClick={handleUpsert} className="w-full" disabled={loading}>
+        {loading ? <Loader className="w-4 h-4 animate-spin" /> : <Upload className="w-4 h-4" />}
+      </Button>
       <div>
-        <Label htmlFor="documents">Documents (one per line)</Label>
-        <Input
-          id="documents"
-          value={documents}
-          onChange={(e) => setDocuments(e.target.value)}
-        />
-      </div>
-      <div>
-        <Label htmlFor="ids">IDs (one per line)</Label>
-        <Input
-          id="ids"
-          value={ids}
-          onChange={(e) => setIds(e.target.value)}
-        />
-      </div>
-      <Button onClick={handleUpsert}>Upsert Documents</Button>
-      <div>
-        <Label htmlFor="queryTexts">Query Texts (one per line)</Label>
+        <Label htmlFor="queryTexts">Ask Questions</Label>
         <Input
           id="queryTexts"
           value={queryTexts}
@@ -112,14 +131,37 @@ export default function ChromaDBInteraction() {
           onChange={(e) => setNResults(e.target.value)}
         />
       </div>
-      <Button onClick={handleQuery}>Query</Button>
+      <Button className="w-full" onClick={handleQuery} disabled={loading}>
+        {loading ? "Loading..." : "Query"}
+      </Button>
       {error && <div className="text-red-500">{error}</div>}
       {results && (
         <div>
-          <h2>Results</h2>
-          <pre>{JSON.stringify(results, null, 2)}</pre>
+          <h2 className="text-2xl font-bold mt-6 mb-2">Results</h2>
+          <div className="overflow-x-auto">
+  <table className="min-w-full divide-y divide-gray-200">
+    <thead className="bg-zinc-200 dark:bg-zinc-800">
+      <tr>
+        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Documents</th>
+        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Id</th>
+        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Distances</th>
+      </tr>
+    </thead>
+    <tbody className=" divide-y divide-gray-200">
+      {results?.ids[0]?.map((ide, i) => (
+        <tr key={i}>
+          <td className="px-6 py-4 whitespace-nowrap">{results.documents[0][i]}</td>
+          <td className="px-6 py-4 whitespace-nowrap">{ide}</td>
+          <td className="px-6 py-4 whitespace-nowrap">{results.distances[0][i]}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
+
+           
         </div>
       )}
-    </div>
+    </Card>
   );
 }

@@ -5,6 +5,7 @@ import { Button } from './ui/button';
 import { Progress } from './ui/progress';
 import { Label } from './ui/label';
 import { Input } from './ui/input';
+import { Card } from './ui/card';
 
 const OcrComponent = () => {
   const [image, setImage] = useState(null);
@@ -33,17 +34,19 @@ const OcrComponent = () => {
     ).then(({ data: { text } }) => {
       setText(text);
       setLoading(false);
+    }).catch((error) => {
+      console.error('Error:', error);
     });
   };
 
   return (
-    <div className="max-w-2xl mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">OCR with Tesseract.js</h1>
+    <Card className="max-w-2xl mx-auto p-4">
+      <h1 className="text-2xl font-bold mb-4">OCR</h1>
       <div className="grid w-full max-w-sm items-center gap-1.5">
       <Label htmlFor="ocr">OCR</Label>
       <Input id="ocr" type="file"  onChange={handleImageChange} className="mb-4"/>
     </div>
-      <Button onClick={handleOcr} disabled={loading}>
+      <Button className='w-full' onClick={handleOcr} disabled={loading}>
         {loading ? 'Processing...' : 'Extract Text'}
       </Button>
       {loading && (
@@ -57,11 +60,11 @@ const OcrComponent = () => {
           <p>{text}</p>
         </div>
       )}
-
+{image &&<>
 <h2 className="text-xl font-semibold mb-2">Image Uploaded:</h2>
-{image && <img src={image} alt="Selected" className="max-w-full mt-4" />}
+ <img src={image} alt="Selected" className="max-w-full mt-4" /></>}
       
-    </div>
+    </Card>
   );
 };
 

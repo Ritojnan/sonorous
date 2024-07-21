@@ -41,6 +41,7 @@ import {
 import ChooseBot from "@/components/choosebot";
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
+import { Badge } from "@/components/ui/badge";
 export default function Component() {
   const [bots, setBots] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -48,8 +49,9 @@ export default function Component() {
 
   useEffect(() => {
     const fetchBots = async () => {
+      setLoading(true);
       try {
-        const response = await fetch("http://localhost:3000/api/getBots", {
+        const response = await fetch("/api/getBots", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -133,104 +135,116 @@ export default function Component() {
                 </Card>
               ))}
             </>
-          ):(
+          ) : (
             <>
               {bots.map((bot: any, i) => (
                 <Card
+                  key={i}
                   className="h-full bg-gray-50 dark:bg-zinc-950 hover:bg-gray-100 dark:hover:bg-zinc-900 transition-colors"
                 >
-                <Link key={i} href={`/dashboard/chatbots/${bot.id}`}>
-                  <CardHeader>
-                    <div className="flex items-center gap-2">
-                      <Avatar>
-                        <AvatarFallback>{bot.chatbotName[0]+bot.chatbotName[1]+bot.id}</AvatarFallback>
-                      </Avatar>
-                      <div>
-                        <h3 className="text-lg font-medium text-gray-900 dark:text-white">
-                          {bot.chatbotName}
-                        </h3>
-                        <p className="text-sm text-gray-500 dark:text-gray-400">
-                          Last updated {bot?.modifiedAt?.split("T")[0].split("-").reverse().join("-")}
-                        </p>
+                  <Link href={`/dashboard/chatbots/${bot.id}`}>
+                    <CardHeader>
+                      <div className="flex items-center gap-2">
+                        <Avatar>
+                          <AvatarFallback>
+                            {bot.chatbotName[0] + bot.chatbotName[1] + bot.id}
+                          </AvatarFallback>
+                        </Avatar>
+                        <div>
+                          <h3 className="text-lg font-medium text-gray-900 dark:text-white">
+                            {bot.chatbotName}
+                          </h3>
+                          <p className="text-sm text-gray-500 dark:text-gray-400">
+                            Last updated{" "}
+                            {bot?.modifiedAt
+                              ?.split("T")[0]
+                              .split("-")
+                              .reverse()
+                              .join("-")}
+                          </p>
+                        </div>
                       </div>
-                    </div>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-gray-800 dark:text-gray-200">
-                      Type:{bot?.type}
-                    </p>
-                    <p className="text-gray-800 dark:text-gray-200">Tags:</p>
-                    <p className="text-gray-800 dark:text-gray-200">
-                      {/* {bot?.tags?.split(",")?.map((tag: string) => (
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-gray-800 dark:text-gray-200">
+                        Type:{bot?.type}
+                      </p>
+                      <p className="text-gray-800 dark:text-gray-200">Tags:</p>
+                      <p className="text-gray-800 dark:text-gray-200">
+                        {/* {bot?.tags?.split(",")?.map((tag: string) => (
                       tag
                       ))} */}
-                      {bot?.tags}
-                      {bot?.tags?.split(",")?.length == 0 && "None"}
-                    </p>
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-2">
-                      <Button variant={"outline"}>
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <Link
-                              href={`chatbots/${bot.id}/settings`}
-                              className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
-                            >
-                              <Settings className="h-5 w-5" />
-                              <span className="sr-only">Settings</span>
-                            </Link>
-                          </TooltipTrigger>
-                          <TooltipContent side="right">Settings</TooltipContent>
-                        </Tooltip>
-                      </Button>
-                      <Button variant={"outline"}>
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <Link
-                              href={`chatbots/${bot.id}/notifications`}
-                              className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
-                            >
-                              <BellIcon className="h-5 w-5" />
-                              <span className="sr-only">Notifications</span>
-                            </Link>
-                          </TooltipTrigger>
-                          <TooltipContent side="right">
-                            Notifications
-                          </TooltipContent>
-                        </Tooltip>
-                      </Button>
-                      <Button variant={"outline"}>
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <Link
-                              href={`chatbots/${bot.id}/setup`}
-                              className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
-                            >
-                              <LucideSettings2 className="h-5 w-5" />
-                              <span className="sr-only">Set Up</span>
-                            </Link>
-                          </TooltipTrigger>
-                          <TooltipContent side="right">Set Up</TooltipContent>
-                        </Tooltip>
-                      </Button>
-                      <Button variant={"outline"}>
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <Link
-                              href={`chatbots/${bot.id}/analytics`}
-                              className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
-                            >
-                              <BarChart2 className="h-5 w-5" />
-                              <span className="sr-only">Analytics</span>
-                            </Link>
-                          </TooltipTrigger>
-                          <TooltipContent side="right">
-                            Analytics
-                          </TooltipContent>
-                        </Tooltip>
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Link>
+                        {JSON.parse(bot?.tags).map((tag) => {
+                          return <Badge className="mr-1">{tag.label}</Badge>;
+                        })}
+                        {bot?.tags?.split(",")?.length == 0 && "None"}
+                      </p>
+                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-2">
+                        <Button variant={"outline"}>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <Link
+                                href={`chatbots/${bot.id}/settings`}
+                                className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
+                              >
+                                <Settings className="h-5 w-5" />
+                                <span className="sr-only">Settings</span>
+                              </Link>
+                            </TooltipTrigger>
+                            <TooltipContent side="right">
+                              Settings
+                            </TooltipContent>
+                          </Tooltip>
+                        </Button>
+                        <Button variant={"outline"}>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <Link
+                                href={`chatbots/${bot.id}/notifications`}
+                                className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
+                              >
+                                <BellIcon className="h-5 w-5" />
+                                <span className="sr-only">Notifications</span>
+                              </Link>
+                            </TooltipTrigger>
+                            <TooltipContent side="right">
+                              Notifications
+                            </TooltipContent>
+                          </Tooltip>
+                        </Button>
+                        <Button variant={"outline"}>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <Link
+                                href={`chatbots/${bot.id}/train`}
+                                className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
+                              >
+                                <LucideSettings2 className="h-5 w-5" />
+                                <span className="sr-only">Set Up</span>
+                              </Link>
+                            </TooltipTrigger>
+                            <TooltipContent side="right">Set Up</TooltipContent>
+                          </Tooltip>
+                        </Button>
+                        <Button variant={"outline"}>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <Link
+                                href={`chatbots/${bot.id}/analytics`}
+                                className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
+                              >
+                                <BarChart2 className="h-5 w-5" />
+                                <span className="sr-only">Analytics</span>
+                              </Link>
+                            </TooltipTrigger>
+                            <TooltipContent side="right">
+                              Analytics
+                            </TooltipContent>
+                          </Tooltip>
+                        </Button>
+                      </div>
+                    </CardContent>
+                  </Link>
                   <CardFooter>
                     <div className="flex justify-items-stretch space-x-2">
                       <Switch id="status" />
@@ -239,7 +253,7 @@ export default function Component() {
                 </Card>
               ))}
             </>
-          ) }
+          )}
         </section>
       </section>
     </main>

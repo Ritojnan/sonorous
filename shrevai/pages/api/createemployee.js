@@ -1,4 +1,4 @@
-// pages/api/createcompany.js
+// pages/api/createemployee.js
 import prisma from "@/lib/prisma";
 import authMiddleware from "@/lib/authMiddleware";
 import { hash } from "bcryptjs";

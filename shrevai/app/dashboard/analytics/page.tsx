@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-
+import Analytics from '@/components/analytics';
 export default function page() {
   return (
     <ScrollArea className="h-full">
@@ -28,12 +28,12 @@ export default function page() {
         <Tabs defaultValue="overview" className="space-y-4">
           <TabsList>
             <TabsTrigger value="overview">Overview</TabsTrigger>
-            <TabsTrigger value="analytics" disabled>
+            <TabsTrigger value="analytics" >
               Analytics
             </TabsTrigger>
           </TabsList>
           <TabsContent value="overview" className="space-y-4">
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+            {/* <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">
@@ -135,9 +135,11 @@ export default function page() {
                   </p>
                 </CardContent>
               </Card>
-            </div>
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-7">
-              <Card className="col-span-4">
+            </div> */}
+            <div className="grid ">
+            {/* <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-7"> */}
+              <Card>
+              {/* <Card className="col-span-7"> */}
                 <CardHeader>
                   <CardTitle>Overview</CardTitle>
                 </CardHeader>
@@ -145,7 +147,7 @@ export default function page() {
                   <Overview />
                 </CardContent>
               </Card>
-              <Card className="col-span-4 md:col-span-3">
+              {/* <Card className="col-span-4 md:col-span-3">
                 <CardHeader>
                   <CardTitle>Recent Sales</CardTitle>
                   <CardDescription>
@@ -155,9 +157,12 @@ export default function page() {
                 <CardContent>
                   <RecentSales />
                 </CardContent>
-              </Card>
+              </Card> */}
             </div>
           </TabsContent>
+          <TabsContent value="analytics">
+<Analytics/>
+            </TabsContent>
         </Tabs>
       </div>
     </ScrollArea>
