@@ -45,6 +45,7 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { useEffect, useState } from "react"
+import Cookies from "js-cookie";
 
 export default function Dashboard() {
   const [users, setUsers] = useState([]);
@@ -54,7 +55,7 @@ export default function Dashboard() {
       let headersList = {
         "Accept": "*/*",
         "User-Agent": "Thunder Client (https://www.thunderclient.com)",
-        "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTcyMTU2MzMxNSwiZXhwIjoxNzIyODU5MzE1fQ.DbiM8kp930mBgJVzh57EZPhFTCkNq2r_p-BAGPsNt4c"
+        "Authorization": "Bearer "+Cookies.get("token")
       };
 
       try {
